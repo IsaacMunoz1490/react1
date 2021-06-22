@@ -1,60 +1,37 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
-class Directory extends Component {
-    constructor(props) { //constructor always must have props - properties 
-        super(props); //super(props) as the very first line, required by react 
-        this.state = { 
-            selectedCampsite: null
-        };
-    }
 
-    onCampsiteSelect(campsite) {
-        this.setState({selectedCampsite: campsite});
-    }
 
-    renderSelectedCampsite(campsite) {
-        if (campsite) {
-            return (
-                <Card>
-                    <CardImg top src={campsite.image} alt={campsite.name} />
-                    <CardBody>
-                        <CardTitle>{campsite.name}</CardTitle>
-                        <CardText>{campsite.description}</CardText>
-                    </CardBody>
-                </Card>
-            );
-        }
-        return <div />;
-    }
+function RenderDirectoryItem({ campsite, onClick }) {
+    return (
+        <Card onClick={() => onClick(campsite.id)}>
+            <CardImg width="100%" src={campsite.image} alt={campsite.name} />
+            <CardImgOverlay>
+                <CardTitle>{campsite.name}</CardTitle>
+            </CardImgOverlay>
+        </Card>
+    );
+}
 
-    render() {
-        const directory = this.props.campsites.map(campsite => {
-            return (
-                <div key={campsite.id} className="col-md-5 m-1">
-                    <Card onClick={() => this.onCampsiteSelect(campsite)}>
-                        <CardImg width="100%" src={campsite.image} alt={campsite.name} />
-                        <CardImgOverlay>
-                            <CardTitle>{campsite.name}</CardTitle>
-                        </CardImgOverlay>
-                    </Card>
-                </div>
-            );
-        });
-
+function Directory(props) {
+    const directory = props.campsite.map(campsite => {
         return (
-            <div className="container">
-                <div className="row">
-                    {directory}
-                </div>
-                <div className="row">
-                    <div className="col-md-5 m-1">
-                        {this.renderSelectedCampsite(this.state.selectedCampsite)}
-                    </div>
-                </div>
+            <div key={campsite.id} className="col-md-5 m-1">
+                <RenderDirectoryItem campsite={campsite} onClick={props.onClick} />
             </div>
         );
-    }
+    });
+
+
+    return (
+        <div className="container">
+            <div className="row">
+                {directory}
+            </div>
+        </div>
+    );
 }
+
 
 export default Directory;
