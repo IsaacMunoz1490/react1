@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 class Header extends Component {
     constructor(props) {
         super(props);
+
         this.toggleNav = this.toggleNav.bind(this);
         this.state = {
             isNavOpen: false
@@ -32,7 +33,7 @@ class Header extends Component {
 
                 <Navbar dark sticky="top" expand="md">
                     <div className="container">
-                        <NavbarBrand className="mr-auto" href="/"><img src="/assets/images/logo.png" height="30" width="30" alt="Nucamp Logo" /></NavbarBrand>
+                        <NavbarBrand className="mr-auto" href="/home"><img src="/assets/images/logo.png" height="30" width="30" alt="NuCamp Logo" /></NavbarBrand>
                         <NavbarToggler onClick={this.toggleNav} />
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav navbar>
@@ -47,7 +48,7 @@ class Header extends Component {
                                     </NavLink>
                                 </NavItem><NavItem>
                                     <NavLink className="nav-link" to="/aboutus">
-                                        <i className="fa fa-info fa-lg" /> About Us
+                                        <i className="fa fa-info fa-lg" /> About
                                     </NavLink>
                                 </NavItem><NavItem>
                                     <NavLink className="nav-link" to="/contactus">
