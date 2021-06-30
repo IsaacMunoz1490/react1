@@ -6,6 +6,8 @@ import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Contact from './ContactComponents';
+// connecting the About Page
+import About from './AboutComponent';
 import {COMMENTS} from '../shared/comments';
 import {PARTNERS} from '../shared/partners';
 import {PROMOTIONS} from '../shared/promotions';
@@ -45,7 +47,7 @@ class Main extends Component {
             );
         };
 
-
+// Route is the same as taking you to different links, you would use Route exact path and render 
         return (
             <div>
                 <Header />
@@ -54,6 +56,8 @@ class Main extends Component {
                     <Route exact path='/directory' render={() => <Directory campsites={this.state.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
                     <Route exact path='/contactus' component={Contact} />
+                    {/* Task 1 connecting the About page*/}
+                    <Route exact path='/aboutus' render={() => <About partners={this.state.partners} />} />
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />
