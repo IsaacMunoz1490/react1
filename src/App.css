@@ -46,21 +46,22 @@ h2 {
 .navbar-dark {
     background-color: #901CAD;
 }
+/* ADDED THE NEW CODE ON THE BOTTOM FOR THE CHALLENGE THIS WEEK */
 .page-enter {
-    opacity: 0;
-    transform: translateX(-100%);
+    opacity: 5;
+    transform: translateX(100%) translateY(25%);
 }
 
 .page-enter-active {
-    opacity: 1;
+    opacity: 5;
     transform: translateX(0%);
     transition: 300ms ease-out;
 }
 .page-exit {
-    opacity: 0;
+    opacity: 5;
 }
 
 .page-exit-active {
-    opacity: o;
+    opacity: 5;
     transition: 300ms ease-in;
 }
