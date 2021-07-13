@@ -96,12 +96,12 @@ export const postComment = (campsiteId, rating, author, text) => dispatch => {
             if (response.ok) {
                 return response;
             } else {
-                const error = new Error (`Error ${response.status}: ${response.statusText}`);
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
                 error.response = response;
                 throw error;
             }
         },
-        error => { throw error; }
+            error => { throw error; }
         )
         .then(response => response.json())
         .then(response => dispatch(addComment(response)))
@@ -149,3 +149,64 @@ export const addPromotions = promotions => ({
     type: ActionTypes.ADD_PROMOTIONS,
     payload: promotions
 });
+
+// TASK 1
+
+export const fetchPartners = () => dispatch => {
+    dispatch(partnersLoading());
+    return fetch(baseUrl + 'partners')
+        .then(response => response.json())
+        .then(partners => dispatch(addPartners(partners)));
+
+};
+
+export const partnersLoading = () => ({
+    type: ActionTypes.PARTNERS_LOADING
+});
+export const partnersFailed = errMess => ({
+    type: ActionTypes.PARTNERS_FAILED,
+    payload: errMess
+});
+
+export const addPartners = partners => ({
+    type: ActionTypes.ADD_PARTNERS,
+    payload: partners
+});
+
+// TASK 2 
+export const addFeedback = feedback => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+});
+export const postFeedback = (rating, author, text) => dispatch => {
+
+    const newFeedback = {
+        rating: rating,
+        author: author,
+        text: text
+    };
+    newFeedback.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'feedback', {
+        method: "POST",
+        body: JSON.stringify(newFeedback),
+        headers: {
+            "Content_Type": "application/json"
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        }
+        )
+        .then(response => response.json())
+        .then(response => dispatch(addFeedback(response)))
+        .catch(error => {
+            alert(`Thank you for your feedback ` + error.message);
+        });
+};

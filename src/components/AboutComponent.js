@@ -1,34 +1,55 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from "../shared/baseUrl";
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
+
+function PartnerList({ partners, isLoading, errMess }) {
+
+    const list = useMemo(() => partners.map(partner => {
+        return ( <Fade in key={partner.id}>
+                <Media tag="li">
+                    <RenderPartner partner={partner} />
+                </Media>
+            </Fade>
+        );
+    }), [])
+
+    if (isLoading) {
+        return <Loading />
+    }
+    if (errMess) {
+        return <div className="col">
+            <h4>{errMess}</h4>
+        </div>
+    }
+
+
+    return (
+        <Stagger in>
+            {list}
+        </Stagger>
+    )
+
+}
 
 
 function RenderPartner({ partner }) {
-    if (partner) {
-        return (
-            <React.Fragment>
-                <Media object src={partner.image} alt={partner.name} width="150" />
-                <Media body className="ml-5 mb-4">
-                    <Media heading>
-                        {partner.name}
-                    </Media>
+    return (
+        <React.Fragment>
+            <Media object src={baseUrl + partner.image} alt={partner.name} width="150" />
+            <Media body className="ml-5 mb-4">
+                <Media heading>
+                    {partner.name}
                 </Media>
-            </React.Fragment>
-        );
-    } else {
-        return (<div></div>);
-    }
+            </Media>
+        </React.Fragment>
+    );
 }
 // it gathers About parters from this example below
 function About(props) {
-    const partners = props.partners.map(partner => {
-        return (
-            <Media tag="li" key={partner.id}>
-                <RenderPartner partner={partner} />
-            </Media>
-        );
-    });
-
+    console.log(props)
     return (
         <div className="container">
             <div className="row">
@@ -83,7 +104,9 @@ function About(props) {
                 </div>
                 <div className="col mt-4">
                     <Media list>
-                        {partners}
+
+                        <PartnerList {...props.partners} />
+
                     </Media>
                 </div>
             </div>
